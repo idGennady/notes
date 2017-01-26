@@ -8,34 +8,17 @@ import MdDescription from 'react-icons/lib/md/description';
 import { setNotes, removeNote } from '../../actions/notesAction';
 import NotesRow from './notesRow';
 
-// example default data
-const notes = [
-    {
-        id          : 0,
-        date        : '10-06-2017',
-        priority    : 'danger',
-        category    : 'Категория 1',
-        description : 'Описание 1'
-    },
-    {
-        id          : 1,
-        date        : '07-07-2017',
-        priority    : 'success',
-        category    : 'Категория 2',
-        description : 'Описание 2'
-    }
-];
-
 class NotesList extends Component{
 
     componentDidMount(){
         // get data from server and set in reducer
-        this.props.dispatch(setNotes(notes));
+        this.props.dispatch(setNotes());
     }
 
-    removeNote(id){
+    removeNoteById = (id) => (e) => {
+        e.preventDefault();
         this.props.dispatch(removeNote(id));
-    }
+    };
 
     render(){
         const { notes } = this.props;
@@ -62,7 +45,7 @@ class NotesList extends Component{
                         notes
                             ?
                                 notes.map((note, index) => {
-                                    return <NotesRow {...note} key={index} removeNote={this.removeNote.bind(this)} />
+                                    return <NotesRow {...note} key={index} removeNote={this.removeNoteById} />
                                 })
                             :
                                 null

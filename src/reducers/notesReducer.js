@@ -1,6 +1,10 @@
 import {
     SET_NOTES,
     REMOVE_NOTE,
+    SET_CATEGORIES,
+    ADD_CATEGORY,
+    ADD_NEW_NOTE,
+    GET_NODE_BY_ID,
 } from '../actions/notesAction';
 
 const notesReducer = (state = [], action) => {
@@ -12,18 +16,42 @@ const notesReducer = (state = [], action) => {
                 notes: action.notes
             };
 
-        case REMOVE_NOTE:
-
-            for(let i = 0; i < state.notes.length; i++){
-                if(state.notes[i].id === action.id){
-                    state.notes.splice(i, 1);
-                }
-            }
-
+        case ADD_NEW_NOTE:
             return {
                 ...state,
-                notes: state.notes
+                notes: [
+                    ...state.notes,
+                    action.note
+                ]
             };
+
+        case REMOVE_NOTE:
+            return {
+                ...state,
+                notes: state.notes.filter((note, index) => note.id !== action.id)
+            };
+
+        case GET_NODE_BY_ID:
+            return {
+                ...state,
+                notes: state.notes.filter((note, index) => note.id === action.id)
+            };
+
+        case SET_CATEGORIES:
+            return {
+                ...state,
+                categories: action.categories
+            };
+
+        case ADD_CATEGORY:
+            return {
+                ...state,
+                categories: [
+                    ...state.categories,
+                    action.category
+                ]
+            };
+
 
         default: return state;
     }
