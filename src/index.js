@@ -14,14 +14,24 @@ import './styles/styles.css';
 
 // reducers
 import notesReducer from './reducers/notesReducer';
+import categoriesReducer from './reducers/categoriesReducer';
+
+// actions
+import { setNotes } from './actions/notesAction';
+import { setCategories } from './actions/categoriesAction';
+
 
 const store = createStore(combineReducers({
-    notesReducer
+    notesReducer,
+    categoriesReducer
 }), applyMiddleware(thunk));
 
 store.subscribe(() => {
     console.log(store.getState().notesReducer.notes)
 });
+
+store.dispatch(setNotes());
+store.dispatch(setCategories());
 
 ReactDOM.render(
   <Provider store={store}>

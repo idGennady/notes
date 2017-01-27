@@ -9,25 +9,25 @@ import FaEdit from 'react-icons/lib/fa/edit';
 class NoteDetails extends Component{
 
     componentDidMount(){
-        this.props.dispatch(getNoteById(parseInt(this.props.params.id, 10)))
+        this.props.dispatch(getNoteById(parseInt(this.props.params.id, 10)));
     }
 
     render(){
-        const { notes } = this.props;
-
+        const { note } = this.props;
         return(
             <div className="note-details">
-                <h2>Подробное описание</h2>
-                {
-                    notes
-                        ?
+            {
+                note
+                    ?
+                        <div>
+                            <h2>Подробное описание</h2>
                             <div className="details">
                                 <div>
                                     <h3>
                                         Дата события
                                     </h3>
                                     <p>
-                                        { notes[0].date }
+                                        { note[0].date }
                                     </p>
                                 </div>
                                 <div>
@@ -35,7 +35,7 @@ class NoteDetails extends Component{
                                         Категория
                                     </h3>
                                     <p>
-                                        { notes[0].category }
+                                        { note[0].category }
                                     </p>
                                 </div>
                                 <div>
@@ -43,27 +43,28 @@ class NoteDetails extends Component{
                                         Описание
                                     </h3>
                                     <p>
-                                        { notes[0].description }
+                                        { note[0].description }
                                     </p>
                                 </div>
                             </div>
-                        :
-                            null
-                }
-                <div className="buttons">
-                    <Link className="btn btn-success" to={`/edit/${notes.id}`}>
-                        <FaEdit />&nbsp;
-                        Редактировать
-                    </Link>&nbsp;
-                    <Link className="btn btn-danger" to='/'>Назад</Link>
-                </div>
+                            <div className="buttons">
+                                <Link className="btn btn-success" to={`/edit/${note[0].id}`}>
+                                    <FaEdit />&nbsp;
+                                    Редактировать
+                                </Link>&nbsp;
+                                <Link className="btn btn-danger" to='/'>Назад</Link>
+                            </div>
+                        </div>
+                :
+                    null
+            }
             </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    notes : state.notesReducer.notes
+    note : state.notesReducer.note
 });
 
 export default connect(mapStateToProps)(NoteDetails);

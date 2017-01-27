@@ -40,8 +40,7 @@
 .nodes-list tbody tr td:last-child{
     visibility: hidden;
     opacity: 0;
-    width: 100px;
-    margin: 0 auto;
+    width: 75px;
 }
 .nodes-list tbody tr td:last-child span{
     font-size: 16px;

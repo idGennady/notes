@@ -5,15 +5,11 @@ import FaCalendar from 'react-icons/lib/fa/calendar';
 import FaBookmark from 'react-icons/lib/fa/bookmark';
 import MdDescription from 'react-icons/lib/md/description';
 
-import { setNotes, removeNote } from '../../actions/notesAction';
+import { removeNote } from '../../actions/notesAction';
 import NotesRow from './notesRow';
 
 class NotesList extends Component{
 
-    componentDidMount(){
-        // get data from server and set in reducer
-        this.props.dispatch(setNotes());
-    }
 
     removeNoteById = (id) => (e) => {
         e.preventDefault();

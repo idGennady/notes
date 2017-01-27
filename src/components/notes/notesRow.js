@@ -8,10 +8,10 @@ import MdDetails from 'react-icons/lib/md/details';
 class NotesRow extends Component{
 
     render(){
-        const { id, date, priority, category, description, removeNote } = this.props;
+        const { id, date, noteColor, category, description, removeNote } = this.props;
         const limitDescription = 7;
         return(
-            <tr style={{backgroundColor: priority}}>
+            <tr style={{backgroundColor: noteColor}}>
                 <td>{ date }</td>
                 <td>{ category }</td>
                 <td>{ description.substring(0, limitDescription) + '...' }</td>

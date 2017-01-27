@@ -3,16 +3,15 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
-import { setCategories, addCategory, addNewNote } from '../../actions/notesAction';
-import Optgroup from './optgroup';
+import { addNewNote } from '../../actions/notesAction';
+import { addCategory } from '../../actions/categoriesAction';
+
+import SelectCategories from './selectCategories';
 import FaPlus from 'react-icons/lib/fa/plus';
 
 
 class NoteForm extends Component{
 
-    componentDidMount(){
-        this.props.dispatch(setCategories());
-    }
 
     submit = (event) => {
         event.preventDefault();
@@ -22,8 +21,8 @@ class NoteForm extends Component{
         let note = {
             id          : Date.now(),
             date        : refs.date.value,
-            priority    : refs.priority.value,
-            category    : refs.category.options[refs.category.selectedIndex].value,
+            noteColor   : refs.noteColor.value,
+            category    : refs.category.refs.category.options[refs.category.refs.category.selectedIndex].value,
             description : refs.description.value
         };
 
@@ -67,22 +66,18 @@ class NoteForm extends Component{
                         <span className="add-new-category" title="Добавить новую категорию" onClick={this.modalAddCategory}>
                         <FaPlus />
                     </span>
-                        <select className="form-control" id="category-list" ref="category">
-                            {
-                                categories
-                                    ?
-                                    categories.map((category, index) => {
-                                        return <Optgroup {...category} key={index} />
-                                    })
-                                    :
-                                    null
-                            }
-                        </select>
+                    {
+                        categories
+                            ?
+                                <SelectCategories categories={categories} ref="category" />
+                            :
+                                null
+                    }
                     </div>
                     <div className="form-group">
-                        <label htmlFor="priority">Приоритет:</label>
+                        <label htmlFor="noteColor">Цвет:</label>
                         <input type="color" className="form-control"
-                               defaultValue="#ff0000" id="priority" ref="priority"/>
+                               defaultValue="#ffcccc" id="noteColor" ref="noteColor"/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">Описание:</label>
@@ -121,7 +116,7 @@ NoteForm.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    categories : state.notesReducer.categories
+    categories : state.categoriesReducer.categories
 });
 
 export default connect(mapStateToProps)(NoteForm);
