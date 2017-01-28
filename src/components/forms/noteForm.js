@@ -22,7 +22,7 @@ class NoteForm extends Component{
             id          : Date.now(),
             date        : refs.date.value,
             noteColor   : refs.noteColor.value,
-            category    : refs.category.refs.category.options[refs.category.refs.category.selectedIndex].value,
+            category    : parseInt(refs.category.refs.category.options[refs.category.refs.category.selectedIndex].value, 10),
             description : refs.description.value
         };
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import Error from '../error/error';
 import { getNoteById } from '../../actions/notesAction';
 import FaEdit from 'react-icons/lib/fa/edit';
 
@@ -13,7 +14,13 @@ class NoteDetails extends Component{
     }
 
     render(){
-        const { note } = this.props;
+        const { note, categories } = this.props;
+
+        const getCategoryName = (id) => {
+            let category = categories.filter((category) => category.id === id);
+            return category[0].name;
+        };
+
         return(
             <div className="note-details">
             {
@@ -35,7 +42,7 @@ class NoteDetails extends Component{
                                         Категория
                                     </h3>
                                     <p>
-                                        { note[0].category }
+                                        { getCategoryName(note[0].category) }
                                     </p>
                                 </div>
                                 <div>
@@ -56,7 +63,7 @@ class NoteDetails extends Component{
                             </div>
                         </div>
                 :
-                    null
+                    <Error />
             }
             </div>
         )
@@ -64,7 +71,8 @@ class NoteDetails extends Component{
 }
 
 const mapStateToProps = state => ({
-    note : state.notesReducer.note
+    note       : state.notesReducer.note,
+    categories : state.categoriesReducer.categories
 });
 
 export default connect(mapStateToProps)(NoteDetails);

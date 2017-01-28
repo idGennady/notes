@@ -3,6 +3,7 @@ import {
     REMOVE_NOTE,
     ADD_NEW_NOTE,
     GET_NODE_BY_ID,
+    EDIT_NODE,
 } from '../actions/notesAction';
 
 const notesReducer = (state = [], action) => {
@@ -33,6 +34,17 @@ const notesReducer = (state = [], action) => {
             return {
                 ...state,
                 note: state.notes.filter((note, index) => note.id === action.id)
+            };
+
+        case EDIT_NODE:
+            return {
+                ...state,
+                notes: state.notes.map((note) => {
+                    if(note.id === action.note.id){
+                        note = action.note;
+                    }
+                    return note;
+                })
             };
 
         default: return state;

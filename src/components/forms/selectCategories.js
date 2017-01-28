@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 
 class SelectCategories extends Component{
-
-    option = (category) => {
-        // get parent and append element
-        return <option value={category.name} key={category.id}>{category.name}</option>
-    };
-
     render(){
-        const { categories } = this.props;
-        return(
+        const { categories, edit } = this.props;
+
+        console.log(edit);
+
+        const depthToSpaces = (depth) => {
+            let spaces = '';
+            for (let i = 1; i <= depth; i++) {
+                spaces = spaces + '\u00a0'
+            }
+            return spaces
+        };
+
+        const printChildren = (id, depth) => {
+            let res = [];
+            const children = categories.filter((i) => i.parent === id);
+            children.map(i => {
+                res.push(<option value={i.id} key={i.id} style={ id === 0 ? {fontWeight: 'bold'} : {} }>{`${depthToSpaces(depth)}${i.name}`}</option>)
+                res = [...res, printChildren(i.id, depth + 2)];
+                return res
+            });
+            return res
+        };
+
+        return (
             <select className="form-control" id="category-list" ref="category">
-                {
-                    categories.map((category) => {
-                        if(category.parent === 0){
-                            return <optgroup key={category.id} label={category.name}></optgroup>
-                        } else {
-                            return this.option(category)
-                        }
-                    })
-                }
+                { printChildren(0, 0) }
             </select>
         )
     }
 }
+
+SelectCategories.defaultProps = {
+    edit : null
+};
 
 export default SelectCategories;
