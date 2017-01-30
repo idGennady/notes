@@ -1,7 +1,6 @@
 export const SET_NOTES      = 'SET_NOTES';
 export const REMOVE_NOTE    = 'REMOVE_NOTE';
 export const ADD_NEW_NOTE   = 'ADD_NEW_NOTE';
-export const GET_NODE_BY_ID = 'GET_NODE_BY_ID';
 export const EDIT_NODE      = 'EDIT_NODE';
 
 
@@ -43,13 +42,6 @@ export const addNewNote = (note) => {
     return {
         type: ADD_NEW_NOTE,
         note
-    }
-};
-
-export const getNoteById = (id) => {
-    return {
-        type: GET_NODE_BY_ID,
-        id
     }
 };
 

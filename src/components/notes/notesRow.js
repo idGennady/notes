@@ -10,7 +10,7 @@ class NotesRow extends Component{
 
     render(){
         const { id, date, noteColor, category, description, removeNote, categories } = this.props;
-        const limitDescription = 70;
+        const limitDescription = 7;
 
         const renderName = (id) => {
             let category = categories.filter((category) => category.id === id);

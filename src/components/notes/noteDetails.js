@@ -3,15 +3,10 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import Error from '../error/error';
-import { getNoteById } from '../../actions/notesAction';
 import FaEdit from 'react-icons/lib/fa/edit';
 
 
 class NoteDetails extends Component{
-
-    componentDidMount(){
-        this.props.dispatch(getNoteById(parseInt(this.props.params.id, 10)));
-    }
 
     render(){
         const { note, categories } = this.props;
@@ -24,7 +19,7 @@ class NoteDetails extends Component{
         return(
             <div className="note-details">
             {
-                note
+                (note.length > 0)
                     ?
                         <div>
                             <h2>Подробное описание</h2>
@@ -70,8 +65,8 @@ class NoteDetails extends Component{
     }
 }
 
-const mapStateToProps = state => ({
-    note       : state.notesReducer.note,
+const mapStateToProps = (state, props) => ({
+    note       : state.notesReducer.notes.filter(note => parseInt(props.params.id, 10) === note.id),
     categories : state.categoriesReducer.categories
 });
 

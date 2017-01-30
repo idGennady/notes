@@ -77,9 +77,10 @@
     color: #ffffff;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     visibility: hidden;
+    padding-top: 10%;
 }
 .modal-add-category.open{
     visibility: visible;

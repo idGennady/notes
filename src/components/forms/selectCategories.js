@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 class SelectCategories extends Component{
     render(){
-        const { categories, edit } = this.props;
-
-        console.log(edit);
+        const { categories } = this.props;
 
         const depthToSpaces = (depth) => {
             let spaces = '';
@@ -33,8 +31,5 @@ class SelectCategories extends Component{
     }
 }
 
-SelectCategories.defaultProps = {
-    edit : null
-};
 
 export default SelectCategories;

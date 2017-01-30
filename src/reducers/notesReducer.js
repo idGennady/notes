@@ -2,8 +2,7 @@ import {
     SET_NOTES,
     REMOVE_NOTE,
     ADD_NEW_NOTE,
-    GET_NODE_BY_ID,
-    EDIT_NODE,
+        EDIT_NODE,
 } from '../actions/notesAction';
 
 const notesReducer = (state = [], action) => {
@@ -30,11 +29,6 @@ const notesReducer = (state = [], action) => {
                 notes: state.notes.filter((note, index) => note.id !== action.id)
             };
 
-        case GET_NODE_BY_ID:
-            return {
-                ...state,
-                note: state.notes.filter((note, index) => note.id === action.id)
-            };
 
         case EDIT_NODE:
             return {

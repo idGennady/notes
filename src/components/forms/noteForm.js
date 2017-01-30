@@ -12,6 +12,15 @@ import FaPlus from 'react-icons/lib/fa/plus';
 
 class NoteForm extends Component{
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            typeCategory : null,
+            visible      : false
+        }
+    }
+
 
     submit = (event) => {
         event.preventDefault();
@@ -38,18 +47,41 @@ class NoteForm extends Component{
 
     addCategoryMethod = () => {
 
-        let category = {
-            title       : this.refs.titleCategory.value,
-            subcategory : [
-                {
-                    title : this.refs.titleSubcategory.value
-                }
-            ]
-        };
+        let category = {};
 
-        this.props.dispatch(addCategory(category));
-        this.modalAddCategory();
+        if(!this.refs.categoryRadio.checked && !this.refs.subcategoryRadio.checked) return;
 
+        if(this.refs.categoryRadio.checked && (this.refs.nameCategory.value.length > 0)){
+            category = {
+                id     : Date.now(),
+                name   : this.refs.nameCategory.value,
+                parent : 0
+            };
+        }
+
+        if(this.refs.subcategoryRadio.checked && (this.refs.nameSubcategory.value.length > 0)){
+            category = {
+                id     : Date.now(),
+                name   : this.refs.nameSubcategory.value,
+                parent : parseInt(this.refs.addCategory.refs.category.options[this.refs.addCategory.refs.category.selectedIndex].value, 10)
+            };
+        }
+
+        if(Object.keys(category).length === 0){
+            return
+        } else {
+            this.props.dispatch(addCategory(category));
+            this.modalAddCategory();
+        }
+
+
+    };
+
+    selectType = (type) => () => {
+        this.setState({
+            typeCategory: type,
+            visible     : true
+        });
     };
 
     render(){
@@ -91,17 +123,50 @@ class NoteForm extends Component{
                 </form>
                 <form className="modal-add-category">
                     <div className="form-group">
-                        <label htmlFor="name-category">Название категории:</label>
-                        <input type="text" className="form-control" id="name-category"
-                               defaultValue="" ref="titleCategory" />
+                        <div className="radio">
+                            <label><input type="radio" name="category"
+                                          onClick={this.selectType(true)}
+                                          ref="categoryRadio"
+                            />Добавить категорию</label>
+                        </div>
+                        <div className="radio">
+                            <label><input type="radio" name="category"
+                                          onClick={this.selectType(false)}
+                                          ref="subcategoryRadio"
+                            />Добавить подкатегорию</label>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="name-subcategory">Название подкатегории:</label>
-                        <input type="text" className="form-control" id="name-subcategory"
-                               defaultValue="" ref="titleSubcategory" />
-                    </div>
+                    {
+                        this.state.visible
+                            ?
+                                this.state.typeCategory
+                                    ?
+                                        <div className="form-group">
+                                            <label htmlFor="name-category">Название категории:</label>
+                                            <input type="text" className="form-control" id="name-category"
+                                                   defaultValue="" ref="nameCategory" />
+                                        </div>
+                                    :
+                                        <div className="form-group">
+                                            {
+                                                categories
+                                                    ?
+                                                    <div>
+                                                        <label>Выберите категорию:</label>
+                                                        <SelectCategories categories={categories} ref="addCategory" />
+                                                    </div>
+                                                    :
+                                                    null
+                                            }
+                                            <label htmlFor="name-subcategory">Название подкатегории:</label>
+                                            <input type="text" className="form-control" id="name-subcategory"
+                                                   defaultValue="" ref="nameSubcategory" />
+                                        </div>
+                            :
+                                null
+                    }
                     <div className="buttons">
-                        <button type="button" className="btn btn-success" onClick={this.addCategoryMethod}>Добавить заметку</button>&nbsp;
+                        <button type="button" className="btn btn-success" onClick={this.addCategoryMethod}>Добавить</button>&nbsp;
                         <button type="button" className="btn btn-danger" onClick={this.modalAddCategory}>Отмена</button>
                     </div>
                 </form>

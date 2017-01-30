@@ -4,15 +4,12 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 
-import { getNoteById, editNote } from '../../actions/notesAction';
+import { editNote } from '../../actions/notesAction';
 import Error from '../error/error';
 
 
 class EditNoteForm extends Component{
 
-    componentDidMount(){
-        this.props.dispatch(getNoteById(parseInt(this.props.params.id, 10)));
-    }
 
     submit = (id) => (event) => {
         event.preventDefault();
@@ -42,7 +39,7 @@ class EditNoteForm extends Component{
         return(
             <div>
                 {
-                    note
+                    (note.length > 0)
                         ?
                             <form className="add-note-form">
                                 <div className="form-group">
@@ -79,8 +76,8 @@ class EditNoteForm extends Component{
     }
 }
 
-const mapStateToProps = state => ({
-    note : state.notesReducer.note,
+const mapStateToProps = (state, props) => ({
+    note : state.notesReducer.notes.filter(note => parseInt(props.params.id, 10) === note.id),
     categories : state.categoriesReducer.categories
 });
 

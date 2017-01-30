@@ -27,7 +27,7 @@ const store = createStore(combineReducers({
 }), applyMiddleware(thunk));
 
 store.subscribe(() => {
-    console.log(store.getState().notesReducer.notes)
+    console.log(store.getState())
 });
 
 store.dispatch(setNotes());
